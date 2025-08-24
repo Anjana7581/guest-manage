@@ -17,7 +17,9 @@
         .navbar {
             background: #3b7ddd;
             box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-            
+            z-index: 1050; 
+            position: relative; 
+
         }
         .navbar-brand {
             font-weight: 600;
@@ -51,7 +53,7 @@
 
         .sidebar .nav-link.active,
         .sidebar .nav-link:hover {
-            background-color: #5a8dee; /* lighter hover */
+            background-color: #5a8dee;
             color: #fff;
         }
 
@@ -71,6 +73,29 @@
             font-weight: 600;
             border-radius: 12px 12px 0 0 !important;
         }
+
+
+        @media (max-width: 991px) {
+            .sidebar {
+                position: fixed;
+                top: 0; 
+                left: 0;
+                width: 250px;
+                height: 100vh;
+                transform: translateX(-100%);
+                z-index: 1040;
+                padding-top: 4rem; 
+                overflow-y: auto;
+                transition: transform 0.3s ease;
+            
+            }
+            .sidebar.show {
+                transform: translateX(0);
+            }
+            .content {
+                padding-left: 1rem;
+            }
+        }
     </style>
 
     @stack('styles')
@@ -79,6 +104,9 @@
           <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
+            <button class="btn btn-outline-light d-lg-none me-2" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
             <a class="navbar-brand" href="{{ route('dashboard') }}">
                 <i class="fas fa-hotel me-2 mx-3"></i> Admin Panel
             </a>
@@ -97,7 +125,7 @@
     <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->
-            <div class="col-md-3 col-lg-2 sidebar">
+            <div class="col-md-3 col-lg-2 sidebar" id="sidebar">
                 <ul class="nav flex-column mt-3">
                     <li class="nav-item">
                         <a href="{{ route('dashboard') }}" class="nav-link {{ request()->is('dashboard') ? 'active' : '' }}">
@@ -123,7 +151,7 @@
             </div>
 
             <!-- Content -->
-            <main class="col-md-9 col-lg-10 content">
+            <main id="mainContent" class="col-md-9 col-lg-10 content">
                 @yield('content')
             </main>
         </div>
@@ -131,5 +159,22 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     @stack('scripts')
+    <script>
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebar = document.getElementById('sidebar');
+
+    sidebarToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('show'); // slide in/out
+    });
+
+    // Close sidebar if clicking outside
+    window.addEventListener('click', (e) => {
+        if (window.innerWidth < 992 && sidebar.classList.contains('show')) {
+            if (!sidebar.contains(e.target) && e.target !== sidebarToggle) {
+                sidebar.classList.remove('show');
+            }
+        }
+    });
+</script>
 </body>
 </html>
