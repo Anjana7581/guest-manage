@@ -11,7 +11,7 @@ class GuestController extends Controller
      
     public function index()
     {
-        $guests = Guest::latest()->paginate(6); // 10 per page
+        $guests = Guest::orderBy('id', 'asc')->paginate(10); // 10 per page
         return view('guests.index', compact('guests'));
     }
 
@@ -29,23 +29,24 @@ class GuestController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name'  => 'required|string|max:255',
+            'name'  => ['required', 'regex:/^[a-zA-Z\s]+$/', 'min:3', 'max:255'], 
             'email' => 'required|email|unique:guests,email',
-            'phone' => 'required|string|max:255',
-            'address' => 'required|string',
-            'id_proof_type' => 'required|string|max:255',
-            'id_proof_number' => 'required|string|max:255',
+            'phone' => ['required', 'regex:/^\+?[0-9\s\-()]{7,20}$/'], 
+            'address' => 'required|string|max:500',
+            'id_proof_type' => ['required', 'regex:/^[a-zA-Z\s]+$/', 'max:255'], 
+            'id_proof_number' => 'required|alpha_num|max:255',
             'id_proof_image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-            'emergency_contact_name' => 'required|string|max:255',
-            'emergency_contact_phone' => 'required|string|max:255',
-            'special_requests' => 'nullable|string',
-        ],  [
-            'name.required' => 'Please enter the guest name.',
-            'name.max' => 'Name cannot exceed 255 characters.',
-            'email.email' => 'Please enter a valid email address.',
-            'email.unique' => 'This email is already registered.',
-            'phone.max' => 'Phone number cannot exceed 255 characters.',
-            '*.max' => 'The :attribute cannot exceed 255 characters.',
+            'emergency_contact_name' => ['required', 'regex:/^[a-zA-Z\s]+$/', 'max:255'],
+            'emergency_contact_phone' => ['required', 'regex:/^\+?[0-9\s\-()]{7,20}$/'],
+            'special_requests' => 'nullable|string|max:1000',
+        ], [
+            'name.regex' => 'The guest name may only contain letters and spaces.',
+            'name.min' => 'The guest name must be at least 3 characters long.',
+            'id_proof_type.regex' => 'The ID proof type may only contain letters and spaces.',
+            'emergency_contact_name.regex' => 'The emergency contact name may only contain letters and spaces.',
+            'phone.regex' => 'Please enter a valid phone number.',
+            'emergency_contact_phone.regex' => 'Please enter a valid emergency contact number.',
+            'id_proof_number.alpha_num' => 'The ID proof number may only contain letters and numbers.',
         ]);
 
     if ($request->hasFile('id_proof_image')) {
@@ -71,16 +72,24 @@ class GuestController extends Controller
     public function update(Request $request, Guest $guest)
     {
         $validated = $request->validate([
-            'name'  => 'required|string|max:255',
+            'name'  => ['required', 'regex:/^[a-zA-Z\s]+$/', 'min:3', 'max:255'], 
             'email' => 'required|email|unique:guests,email,' . $guest->id,
-            'phone' => 'required|string|max:255',
-            'address' => 'required|string',
-            'id_proof_type' => 'required|string|max:255',
-            'id_proof_number' => 'required|string|max:255',
-            'id_proof_image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-            'emergency_contact_name' => 'required|string|max:255',
-            'emergency_contact_phone' => 'required|string|max:255',
-            'special_requests' => 'nullable|string',
+            'phone' => ['required', 'regex:/^\+?[0-9\s\-()]{7,20}$/'], 
+            'address' => 'required|string|max:500',
+            'id_proof_type' => ['required', 'regex:/^[a-zA-Z\s]+$/', 'max:255'], 
+            'id_proof_number' => 'required|alpha_num|max:255',
+            'id_proof_image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'emergency_contact_name' => ['required', 'regex:/^[a-zA-Z\s]+$/', 'max:255'],
+            'emergency_contact_phone' => ['required', 'regex:/^\+?[0-9\s\-()]{7,20}$/'],
+            'special_requests' => 'nullable|string|max:1000',
+        ], [
+            'name.regex' => 'The guest name may only contain letters and spaces.',
+             'name.min' => 'The guest name must be at least 3 characters long.',
+            'id_proof_type.regex' => 'The ID proof type may only contain letters and spaces.',
+            'emergency_contact_name.regex' => 'The emergency contact name may only contain letters and spaces.',
+            'phone.regex' => 'Please enter a valid phone number.',
+            'emergency_contact_phone.regex' => 'Please enter a valid emergency contact number.',
+            'id_proof_number.alpha_num' => 'The ID proof number may only contain letters and numbers.',
         ]);
 
 

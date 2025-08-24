@@ -17,10 +17,19 @@
                 <div class="card-body p-3 p-md-4">
 
                     @if(session('success'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert">
                             <i class="fas fa-check-circle me-2"></i> {{ session('success') }}
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
+                         <script>
+                            setTimeout(() => {
+                                let alert = document.getElementById('success-alert');
+                                if (alert) {
+                                    let bsAlert = new bootstrap.Alert(alert);
+                                    bsAlert.close();
+                                }
+                            }, 3000); 
+                        </script>
                     @endif
 
                     <div class="table-responsive">
@@ -37,7 +46,7 @@
                             <tbody>
                                 @forelse($guests as $index => $guest)
                                     <tr>
-                                        <td>{{ $index + 1 }}</td>
+                                        <td>{{ ($guests->currentPage() - 1) * $guests->perPage() + $loop->iteration }}</td>
                                         <td>{{ $guest->name }}</td>
                                         <td>{{ $guest->email }}</td>
                                         <td>{{ $guest->phone }}</td>
