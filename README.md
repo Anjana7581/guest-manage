@@ -25,48 +25,8 @@ This project uses **Laravel Sanctum** for authentication and **Bootstrap** for s
 
 ---
 
-## 📂 Installation
-
-1. Clone the repository:  
-   ```bash
-   git clone https://github.com/your-username/guest-management.git
-   cd guest-management
-````
-
-2. Install dependencies:
-
-   ```bash
-   composer install
-   npm install && npm run dev
-   ```
-3. Copy `.env` file and configure database:
-
-   ```bash
-   cp .env.example .env
-   php artisan key:generate
-   ```
-4. Run migrations & seeders:
-
-   ```bash
-   php artisan migrate --seed
-   ```
-5. Start the development server:
-
-   ```bash
-   php artisan serve
-   ```
-
-🔑 **Default Admin Login:**
-
-```
-Email: admin@example.com
-Password: password
-```
-
 ---
 
 ## 📜 License
 
 This project is licensed under the MIT License.
-
-```
