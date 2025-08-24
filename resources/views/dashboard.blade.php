@@ -1,22 +1,15 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Dashboard</title>
-</head>
-<body>
-    <h2>Welcome, {{ Auth::user()->name }}</h2>
+@extends('layouts.app')
 
-    <p>You are logged in 🎉</p>
+@section('title', 'Dashboard')
 
-    <nav>
-        <ul>
-            <li><a href="{{ route('guests.index') }}">Manage Guests</a></li>
-        </ul>
-    </nav>
-
-    <form method="POST" action="{{ route('logout') }}">
-        @csrf
-        <button type="submit">Logout</button>
-    </form>
-</body>
-</html>
+@section('content')
+<div class="card">
+    <div class="card-header">
+       <h4> <i class="fas fa-tachometer-alt me-2"></i> Dashboard</h4>
+    </div>
+    <div class="card-body">
+        <h5 class="mb-3">Welcome back, {{ Auth::user()->name }} 🎉</h5>
+        <p class="text-muted">This is your admin panel overview.</p>
+    </div>
+</div>
+@endsection

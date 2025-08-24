@@ -1,24 +1,20 @@
-<div class="container">
-    <h1>Add Guest</h1>
+@extends('layouts.app')
 
-    <form action="{{ route('guests.store') }}" method="POST">
-        @csrf
-        <div class="mb-3">
-            <label>Name</label>
-            <input type="text" name="name" class="form-control" required>
+@section('title', 'Create Guest')
+
+@section('content')
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="mb-0"><i class="fas fa-user-plus me-2"></i> Create New Guest</h4>
+                    </div>
+                    <div class="card-body p-4">
+                        @include('guests._form')
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <div class="mb-3">
-            <label>Email</label>
-            <input type="email" name="email" class="form-control">
-        </div>
-
-        <div class="mb-3">
-            <label>Phone</label>
-            <input type="text" name="phone" class="form-control">
-        </div>
-
-        <button type="submit" class="btn btn-success">Save</button>
-        <a href="{{ route('guests.index') }}" class="btn btn-secondary">Cancel</a>
-    </form>
-</div>
+    </div>
+@endsection

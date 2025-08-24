@@ -30,16 +30,24 @@ class GuestController extends Controller
     {
         $validated = $request->validate([
             'name'  => 'required|string|max:255',
-            'email' => 'nullable|email|unique:guests,email',
-            'phone' => 'nullable|string|max:255',
-            'address' => 'nullable|string',
-            'id_proof_type' => 'nullable|string|max:255',
-            'id_proof_number' => 'nullable|string|max:255',
-            'id_proof_image' => 'nullable|string|max:255',
-            'emergency_contact_name' => 'nullable|string|max:255',
-            'emergency_contact_phone' => 'nullable|string|max:255',
+            'email' => 'required|email|unique:guests,email',
+            'phone' => 'required|string|max:255',
+            'address' => 'required|string',
+            'id_proof_type' => 'required|string|max:255',
+            'id_proof_number' => 'required|string|max:255',
+            'id_proof_image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'emergency_contact_name' => 'required|string|max:255',
+            'emergency_contact_phone' => 'required|string|max:255',
             'special_requests' => 'nullable|string',
+        ],  [
+            'name.required' => 'Please enter the guest name.',
+            'name.max' => 'Name cannot exceed 255 characters.',
+            'email.email' => 'Please enter a valid email address.',
+            'email.unique' => 'This email is already registered.',
+            'phone.max' => 'Phone number cannot exceed 255 characters.',
+            '*.max' => 'The :attribute cannot exceed 255 characters.',
         ]);
+
 
         Guest::create($validated);
 
@@ -61,14 +69,14 @@ class GuestController extends Controller
     {
         $validated = $request->validate([
             'name'  => 'required|string|max:255',
-            'email' => 'nullable|email|unique:guests,email,' . $guest->id,
-            'phone' => 'nullable|string|max:255',
-            'address' => 'nullable|string',
-            'id_proof_type' => 'nullable|string|max:255',
-            'id_proof_number' => 'nullable|string|max:255',
-            'id_proof_image' => 'nullable|string|max:255',
-            'emergency_contact_name' => 'nullable|string|max:255',
-            'emergency_contact_phone' => 'nullable|string|max:255',
+            'email' => 'required|email|unique:guests,email,' . $guest->id,
+            'phone' => 'required|string|max:255',
+            'address' => 'required|string',
+            'id_proof_type' => 'required|string|max:255',
+            'id_proof_number' => 'required|string|max:255',
+            'id_proof_image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'emergency_contact_name' => 'required|string|max:255',
+            'emergency_contact_phone' => 'required|string|max:255',
             'special_requests' => 'nullable|string',
         ]);
 
