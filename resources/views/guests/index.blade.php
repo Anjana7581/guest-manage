@@ -36,7 +36,7 @@
                         <table class="table table-striped table-hover table-bordered align-middle mb-0">
                             <thead style="background: linear-gradient(120deg, #3b7ddd, #2a5ca0); color: white;">
                                 <tr>
-                                    <th>#</th>
+                                    <th>Id</th>
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Phone</th>
