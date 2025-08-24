@@ -11,7 +11,7 @@ class GuestController extends Controller
      
     public function index()
     {
-        $guests = Guest::latest()->paginate(10); // 10 per page
+        $guests = Guest::latest()->paginate(6); // 10 per page
         return view('guests.index', compact('guests'));
     }
 
@@ -48,6 +48,9 @@ class GuestController extends Controller
             '*.max' => 'The :attribute cannot exceed 255 characters.',
         ]);
 
+    if ($request->hasFile('id_proof_image')) {
+        $validated['id_proof_image'] = $request->file('id_proof_image')->store('id_proofs', 'public');
+    }
 
         Guest::create($validated);
 
@@ -80,11 +83,22 @@ class GuestController extends Controller
             'special_requests' => 'nullable|string',
         ]);
 
+
+    if ($request->hasFile('id_proof_image')) {
+        $validated['id_proof_image'] = $request->file('id_proof_image')->store('id_proofs', 'public');
+    }
+
         $guest->update($validated);
 
         return redirect()->route('guests.index')->with('success', 'Guest updated successfully.');
     }
 
+     //   show
+   
+    public function show(Guest $guest)
+    {
+        return view('guests.show', compact('guest'));
+    }
     
     //   delete
      
